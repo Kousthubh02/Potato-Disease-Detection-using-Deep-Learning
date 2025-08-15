@@ -6,6 +6,8 @@ ENV/
 
 # Python
 __pycache__/
+*/__pycache__/
+**/__pycache__/
 *.py[cod]
 *$py.class
 *.so
@@ -32,6 +34,9 @@ MANIFEST
 # Node modules
 react_js/node_modules/
 
+# React app (if not needed in repo)
+react_js/
+
 # IDE
 .vscode/
 .idea/
@@ -48,6 +53,7 @@ yarn-error.log*
 
 # Model files (if large)
 *.h5
+*.keras
 *.pkl
 *.joblib
 
@@ -57,3 +63,33 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+*.temp
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Test files
+test_*.jpg
+test_*.png
+test_*.jpeg
+*_test.*
+
+# Downloaded datasets (can be large)
+data/
+datasets/
+*.zip
+*.tar.gz
+
+# Google Cloud credentials
+*.json
+gcp-key.json
+service-account.json
+
+# Cache directories
+.cache/
+cache/
