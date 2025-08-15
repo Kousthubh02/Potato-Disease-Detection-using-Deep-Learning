@@ -1,70 +1,212 @@
-# Getting Started with Create React App
+# Potato Disease Detection - React Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React.js web application for uploading potato leaf images and getting disease predictions from a machine learning model.
 
-## Available Scripts
+## 🚀 Quick Start
 
-In the project directory, you can run:
+### 1. Install Dependencies
+```bash
+npm install
+```
+
+### 2. Configure Environment
+Create a `.env` file in the root of this React app directory:
+
+```env
+# For Cloud Function (Production)
+REACT_APP_API_URL=https://predict-qwzeghkfwq-uc.a.run.app
+
+# For Local Development
+# REACT_APP_API_URL=http://localhost:8000/predict
+
+# Optional Configuration
+REACT_APP_ENABLE_DEBUG=false
+REACT_APP_MAX_FILE_SIZE=5242880
+```
+
+### 3. Start Development Server
+```bash
+npm start
+```
+
+The app will open at `http://localhost:3000`
+
+## 🔧 Environment Configuration
+
+### Required Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `REACT_APP_API_URL` | Backend API endpoint | `https://your-function-url/predict` |
+
+### Optional Variables
+
+| Variable | Description | Default | Example |
+|----------|-------------|---------|---------|
+| `REACT_APP_ENABLE_DEBUG` | Enable debug logging | `false` | `true` |
+| `REACT_APP_MAX_FILE_SIZE` | Max upload size in bytes | `5242880` | `10485760` |
+
+## 🌐 Backend Options
+
+### Option 1: Google Cloud Function (Recommended)
+
+```env
+REACT_APP_API_URL=https://predict-qwzeghkfwq-uc.a.run.app
+```
+
+**Advantages**:
+- ✅ Production ready
+- ✅ Scalable
+- ✅ No local setup required
+- ✅ Always available
+
+**Use Case**: Production deployment, demo, sharing with others
+
+### Option 2: Local FastAPI Server
+
+```env
+REACT_APP_API_URL=http://localhost:8000/predict
+```
+
+**Requirements**: 
+1. Start the local API server:
+   ```bash
+   cd ../api
+   python api.py
+   ```
+
+**Advantages**:
+- ✅ Faster development cycle
+- ✅ No cloud costs
+- ✅ Full control over backend
+- ✅ Offline development
+
+**Use Case**: Local development, testing, debugging
+
+## 📱 Features
+
+- **Drag & Drop Upload**: Easy image uploading interface
+- **Real-time Preview**: See uploaded image before prediction
+- **Instant Results**: Get predictions in seconds
+- **Confidence Scores**: View prediction confidence levels
+- **Responsive Design**: Works on desktop and mobile
+- **Error Handling**: User-friendly error messages
+
+## 🎯 Usage
+
+1. **Upload Image**: 
+   - Click "Choose File" or drag & drop
+   - Select a potato leaf image (JPG, PNG)
+   - Image will be automatically resized to 256x256
+
+2. **Get Prediction**:
+   - Click "Predict Disease"
+   - Wait for model inference (2-5 seconds)
+
+3. **View Results**:
+   - See predicted disease class
+   - Check confidence percentage
+   - View all class probabilities
+
+## 🔍 Supported Image Types
+
+- **Formats**: JPG, JPEG, PNG
+- **Max Size**: 5MB (configurable)
+- **Optimal Size**: 256x256 pixels
+- **Content**: Potato leaf images
+
+## ⚙️ Development
+
+### Project Structure
+
+```
+react_js/
+├── public/
+│   ├── index.html
+│   └── manifest.json
+├── src/
+│   ├── App.js          # Main component
+│   ├── App.css         # Styling
+│   ├── index.js        # Entry point
+│   └── index.css       # Global styles
+├── .env                # Environment config
+├── package.json        # Dependencies
+└── README.md          # This file
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+#### 1. CORS Errors
+```
+Access to fetch at 'API_URL' from origin 'http://localhost:3000' has been blocked by CORS policy
+```
+
+**Solution**: Ensure backend has proper CORS headers configured
+
+#### 2. Environment Variables Not Loading
+```
+Cannot read property of undefined
+```
+
+**Solution**: 
+- Ensure `.env` file is in React app root
+- Variables must start with `REACT_APP_`
+- Restart development server after changes
+
+#### 3. Network/Connection Errors
+```
+Failed to fetch
+```
+
+**Solutions**:
+- Check if backend is running (local) or deployed (cloud)
+- Verify URL in `.env` file
+- Check network connectivity
+
+## 🚀 Available Scripts
 
 ### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Runs the app in development mode at [http://localhost:3000](http://localhost:3000)
 
 ### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner in interactive watch mode
 
 ### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Builds the app for production to the `build` folder
 
 ### `npm run eject`
-
 **Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🔗 API Contract
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Request Format
+```javascript
+const formData = new FormData();
+formData.append('file', imageFile);
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+fetch(apiUrl, {
+  method: 'POST',
+  body: formData
+})
+```
 
-## Learn More
+### Response Format
+```json
+{
+  "class": "Healthy",
+  "confidence": 0.8945,
+  "all_predictions": {
+    "Healthy": 0.8945,
+    "Early Blight": 0.0821,
+    "Late Blight": 0.0234
+  }
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📝 Learn More
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started)
+- [React documentation](https://reactjs.org/)
+- [Main Project README](../README.md)

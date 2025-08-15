@@ -57,9 +57,12 @@ function App() {
     const formData = new FormData();
     formData.append('file', uploadedFile);
 
+    // Use environment variable for API URL
+    const apiUrl = process.env.REACT_APP_API_URL ;
+
     try {
-      console.log('Uploading to: http://127.0.0.1:8000/predict');
-      const response = await fetch('http://127.0.0.1:8000/predict', {
+      console.log('Uploading to:', apiUrl);
+      const response = await fetch(apiUrl, {
         method: 'POST',
         body: formData,
         mode: 'cors',
@@ -80,7 +83,7 @@ function App() {
     } catch (error) {
       console.error('Fetch error:', error);
       if (error.name === 'TypeError' && error.message.includes('fetch')) {
-        alert('Cannot connect to backend server. Please ensure:\n1. Backend is running on http://127.0.0.1:8000\n2. CORS is properly configured\n3. No firewall is blocking the connection');
+        alert('Cannot connect to backend server. Please check your internet connection.');
       } else {
         alert(`Error: ${error.message}`);
       }
